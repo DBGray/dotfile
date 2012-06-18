@@ -37,11 +37,26 @@ export EDITOR=/usr/bin/vim
 
 test -s ~/.alias && . ~/.alias || true
 
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+source $HOME/.envrc
 # git tab complete and prompt
-source /etc/bash_completion.d/git.sh
-PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+source $HOME/.vim/git_complete.sh
+#PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 GIT_PS1_SHOWUPSTREAM="auto"
 GIT_PS1_SHOWDIRTYSTATE=1
+
+# NEW. FANCY PROMPT
+if [[ $EUID == 0 ]] ; then
+	PS1='\[\033[01;31m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ ' #RED
+else
+    PS1='\[\033[01;32m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ ' #Green
+
+	# PS1='\[\033[01;34m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\W\[\033[00m\]\$(__git_ps1 " (%s)")\$ ' #Blue
+fi
 
 export PATH=$PATH:/home/david.gray/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/home/david.gray/osg/osgearth/bin/:/home/david.gray/osg/3.0.1/bin/
 

@@ -1,0 +1,188 @@
+# version 0.1
+
+################################
+### Colors ###
+################################
+
+BLACK='\e[0;30m'
+BLUE='\e[0;34m'
+GREEN='\e[0;32m'
+CYAN='\e[0;36m'
+RED='\e[0;31m'
+PURPLE='\e[0;35m'
+BROWN='\e[0;33m'
+LIGHTGRAY='\e[0;37m'
+DARKGRAY='\e[1;30m'
+LIGHTBLUE='\e[1;34m'
+LIGHTGREEN='\e[1;32m'
+LIGHTCYAN='\e[1;36m'
+LIGHTRED='\e[1;31m'
+LIGHTPURPLE='\e[1;35m'
+YELLOW='\e[1;33m'
+LIGHTYELLOW='\e[0;33m'
+WHITE='\e[1;37m'
+NC='\e[0m' # No Color
+
+
+# Less Colors for Man Pages
+export LESS_TERMCAP_mb=$'\E[01;31m' # begin blinking
+export LESS_TERMCAP_md=$'\E[01;38;5;74m' # begin bold
+export LESS_TERMCAP_me=$'\E[0m' # end mode
+export LESS_TERMCAP_se=$'\E[0m' # end standout-mode
+export LESS_TERMCAP_so=$'\E[38;5;246m' # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m' # end underline
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+
+################################
+### Environment ###
+################################
+
+##LANGUAGE=
+LC_ALL='en_US.UTF-8'
+LANG='en_US.UTF-8'
+LC_CTYPE=C
+
+if [ -x /usr/bin/most ]; then
+export PAGER='most'
+else
+export PAGER='less'
+fi
+
+if [ -x /usr/bin/vim ]; then
+export EDITOR='/usr/bin/vim'
+elif [ -x /bin/nano ]; then
+export EDITOR='/bin/nano'
+else
+export EDITOR='/bin/vi'
+fi
+
+# Set xterm to 256 color for zenburn
+export TERM=xterm-256color
+
+test "dumb" != $TERM && {
+# Set title of terminal to host name and working directory
+# add "set title" to your .vimrc and title will change to file name when vim is opened !
+host=$(uname -n)
+if [ "${TERM}" = "xterm" -o "${TERM}" = "xterm-color" ]
+then
+if [ -z "${BASH}" ]
+then
+echo "\033]2;${host}\007\033]1;${host}\007"
+else
+export PROMPT_COMMAND=\ 'echo -ne "\033]2;${host}:${PWD}\007\033]1;@${host}:${PWD}\007"'
+fi
+fi
+}
+
+# Config xterm
+# also need ~/.Xresources
+if [ -e ~/.Xresources ] && [ ! -z "$DISPLAY" ]; then
+xrdb -merge .Xresources
+fi
+
+
+################################
+### PATH ###
+################################
+
+PATH='/bin:/usr/bin:/usr/local/bin'
+if [ $EUID = '0' ] || [ $EUID = '500' ] || [ $EUID = '1000' ]; then
+PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
+fi
+if [ -d /usr/kerberos/bin ]; then
+PATH=$PATH:/usr/kerberos/bin
+fi
+if [ -d $HOME/bin ]; then
+PATH=$PATH:$HOME/bin
+fi
+
+# Set your Time Zone
+TZ="America/Chicago"
+
+
+
+################################
+### Aliases ###
+################################
+
+alias ls='ls -c --color=auto'
+alias la='ls -ac --color=auto'
+alias ll='ls -lah --color=auto'
+alias lsd='ls -d */'
+alias lsz='ls -AZ --color=auto'
+
+# with grep
+alias lsg='ls --color=auto | g'
+alias lag='ls -a --color=auto | g'
+alias llg='ls -lah --color=auto | g'
+
+# Colorize grep
+alias g="grep --color=always"
+alias gi="grep -i --color=always"
+
+# Confirm
+alias mv='mv -i'
+alias cp='cp -i'
+alias rm='rm -i'
+
+# Override -f
+alias rmf='rm -Rfv'
+alias cpf='\cp -v'
+alias mvf='\mv -v'
+alias rmf='rm -Rfv'
+
+# No colbber
+set -o noclobber # Override >|
+
+# Sysadmin
+alias psa='ps auxf'
+alias psg='ps aux | grep' #requires an argument
+# alias date='date "+%A %B %d, %Y %l:%M %p %Z"'
+alias date='echo -ne "${LIGHTBLUE}";date "+%A %B %d, %Y %l:%M %p %Z"'
+alias cal='echo -e "${CYAN}"; cal""'
+alias hist='history | g $1' #Requires one input
+alias du='du -sh'
+alias dul='\du -h | less'
+alias df='df -h'
+
+alias edit="$EDITOR"
+alias nano="$EDITOR"
+
+
+################################
+### Functions ###
+################################
+
+# Extract files from any archive
+# Usage: ex
+
+function ex ()
+{
+if [ -f "$1" ] ; then
+case "$1" in
+*.tar) tar xvf $1 ;;
+*.tar.bz2 | *.tbz2 ) tar xjvf $1 ;;
+*.tar.gz | *.tgz ) tar xzvf $1 ;;
+*.bz2) bunzip2 $1 ;;
+*.rar) unrar x $1 ;;
+*.gz) gunzip $1 ;;
+*.zip) unzip $1 ;;
+*.Z) uncompress $1 ;;
+*.7z) 7z x $1 ;;
+*.xz) tar xJvf $1 ;;
+*.deb)
+DIR=${1%%_*.deb}
+ar xv $1
+mkdir ${DIR}
+tar -C ${DIR} -xzvf data.tar.gz
+;;
+*.rpm) rpm2cpio $1 | cpio -vid ;;
+*) echo ""${1}" cannot be extracted via extract()" ;;
+esac
+else
+echo ""${1}" is not a valid file"
+fi
+}
+# Modified by bodhi.zazen
+# Thanks to rezza at Arch Linux
