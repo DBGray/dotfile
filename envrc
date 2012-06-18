@@ -1,4 +1,13 @@
-# version 0.1
+#=============================================================================
+#     FileName: envrc
+#         Desc: Enviroment file that makes some bach command simplier
+#       Author: David Gray
+#        Email: david.gray@dr-inc.com
+#     HomePage: http://www.dr-inc.com
+#      Version: 0.0.1
+#   LastChange: 2012-06-18 17:02:00
+#      History:
+#=============================================================================
 
 ################################
 ### Colors ###
