@@ -42,7 +42,9 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-source $HOME/.envrc
+if [ -f $HOME/.envrc ]; then
+    source $HOME/.envrc
+fi
 # git tab complete and prompt
 source $HOME/.vim/git_complete.sh
 #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
@@ -62,5 +64,10 @@ export PATH=$PATH:/home/david.gray/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/david.gray/osg/osgearth/lib64/:/home/david.gray/osg/3.0.1/lib64/:/home/david.gray/lib64/
 
+export OSG_DIR=/home/david.gray/osg/3.0.1
+
 alias gitp='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short --color'
 umask 0002
+
+# if I want anaconda to be in PATH
+# export PATH=/home/david.gray/anaconda/bin:$PATH
