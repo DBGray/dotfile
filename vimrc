@@ -131,6 +131,7 @@ set encoding=utf-8              " Necessary to show Unicode glyphs
 " Solarized color scheme
 syntax enable
 set background=light
+" can't seem to make this look as good as webpage :(
 " colorscheme solarized
 " let g:solarized_termcolors=256
 
