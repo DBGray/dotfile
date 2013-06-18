@@ -1,11 +1,11 @@
 "=============================================================================
-"     FileName: .vimrc
+"     FileName: vimrc
 "         Desc: my VIM configuration file.
 "       Author: David Gray
 "        Email: david.gray@dr-inc.com
 "     HomePage: http://www.dr-inc.com
-"      Version: 0.0.1
-"   LastChange: 2012-06-01 16:57:41
+"      Version: 0.0.2
+"   LastChange: 2013-06-18 11:16:16
 "      History:
 "=============================================================================
 " ~/.vimrc (configuration file for vim only)
@@ -91,7 +91,7 @@ set ttyfast            " always use a fast terminal
 set laststatus=2       " tell VIM to always put a status line in, even
                        "    if there is only one window
 " Editing behaviour {{{
-set showmode                    " always show what mode we're currently editing in
+set noshowmode         " USE powerline instead; always show what mode we're currently editing in
 set nowrap                      " don't wrap lines
 set tabstop=4                   " a tab is four spaces
 set softtabstop=4               " when hitting <BS>, pretend like a tab is removed, even if spaces
@@ -126,11 +126,33 @@ set formatoptions+=1            " When wrapping paragraphs, don't end lines with
                                 " 1-letter words (looks stupid)
 set nrformats=                  " make <C-a> and <C-x> play well with zero-padded
                                 " numbers (i.e.  don't consider them octal or hex)
+set encoding=utf-8              " Necessary to show Unicode glyphs
+
+" Solarized color scheme
+syntax enable
+set background=light
+" colorscheme solarized
+" let g:solarized_termcolors=256
 
 " AuthorInfo stuff need NERD commenter
 let g:vimrc_author='David Gray'
 let g:vimrc_email ='david.gray@dr-inc.com'
 let g:vimrc_homepage='http://www.dr-inc.com'
 
+" set to use powerline statusbar, may need sudo python setup.py install
+" needs configuration adjustments for sure.
+set rtp+=/home/david.gray/.vim/bundle/powerline/powerline/bindings/vim
+let g:Powerline_symbols = 'fancy'
+set guifont=Source\ Code\ Pro\ Medium\ for\ Powerline.otf
+
+" commands for NERDTree, <F3> to open tab, auto open NERDTree on empty vim,
+" close vim if NERDTree only tab open
+nmap <F3> :NERDTree<CR>
+autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Makes Author header comment block
 nmap <F4> :AuthorInfoDetect<CR>
+" uses ctags to follow code tags
+nmap <F8> :TagbarToggle<CR>
 " }}} --- end my stuff ---
