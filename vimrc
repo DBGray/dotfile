@@ -142,7 +142,7 @@ let g:vimrc_homepage='http://www.dr-inc.com'
 
 " set to use powerline statusbar, may need sudo python setup.py install
 " needs configuration adjustments for sure.
-set rtp+=/home/david.gray/.vim/bundle/powerline/powerline/bindings/vim
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 set guifont=Source\ Code\ Pro\ Medium\ for\ Powerline.otf
 
