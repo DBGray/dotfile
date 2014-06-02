@@ -27,4 +27,5 @@ I had to:
 I then restarted SUSE and set terminal font to a Powerline supported font.
 I *think* this is what got powerline to work.
 
-
+To update the submodules I used in the vimrc dir:
+git submodule foreach git pull origin master

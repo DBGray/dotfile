@@ -45,41 +45,43 @@ fi
 if [ -f $HOME/.envrc ]; then
     source $HOME/.envrc
 fi
-## git tab complete and prompt
-#source $HOME/.vim/git_complete.sh
-##PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
-#GIT_PS1_SHOWUPSTREAM="auto"
-#GIT_PS1_SHOWDIRTYSTATE=1
-#
-## NEW. FANCY PROMPT
-#if [[ $EUID == 0 ]] ; then
-#	PS1='\[\033[01;31m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ ' #RED
-#else
-#    PS1='\[\033[01;32m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ ' #Green
-#
-#	# PS1='\[\033[01;34m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\W\[\033[00m\]\$(__git_ps1 " (%s)")\$ ' #Blue
-#fi
-
-export PATH=$PATH:/home/david.gray/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/home/david.gray/osg/osgearth/bin/:/home/david.gray/osg/3.0.1/bin/
-
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/david.gray/osg/osgearth/lib64/:/home/david.gray/osg/3.0.1/lib64/:/home/david.gray/lib64/
-
-export OSG_DIR=/home/david.gray/osg/3.0.1
-
-alias gitp='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short --color'
+#alias gitp='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short --color'
+#alias gitp='git log --pretty=format:"%C(cyan)%h%C(blue) %ad %C(white) %s%C(yellow)%d %C(white)[%an]" --graph --date=short --color'
+alias gitp="git log --graph --all --pretty=format:'%Cred%h%Creset - %C(yellow)%cd%Creset -%C(green)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit --date=short"
 umask 0002
 
-CHROOT=`ls -di / | awk '{if ($1 != "2") print 1; else print 0;}'`
-        function _update_ps1() {
-            if [ "$TERM" != "linux" ] ; then
-                PREV=$?
-                #EXTRA=`logname`@`hostname`
-                EXTRA=`logname`
-                export PS1="$(~/.vim/powerline-shell.py ${PREV} --width ${COLUMNS} --chroot ${CHROOT} --extra ${EXTRA})"
-            fi
-        }
- 
-         export PROMPT_COMMAND="_update_ps1"
+# git tab complete and prompt
+source $HOME/.vim/git_complete.sh
+#PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+GIT_PS1_SHOWUPSTREAM="auto"
+GIT_PS1_SHOWDIRTYSTATE=1
+
+# NEW. FANCY PROMPT
+if [[ $EUID == 0 ]] ; then
+	PS1='\[\033[01;31m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ ' #RED
+else
+    PS1='\[\033[01;32m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ ' #Green
+
+	# PS1='\[\033[01;34m\]\u\[\033[01;30m\]@\[\033[01;34m\]\h\[\033[01;30m\]:\[\033[01;34m\]\W\[\033[00m\]\$(__git_ps1 " (%s)")\$ ' #Blue
+fi
+export PROMPT_COMMAND=""
+
+#CHROOT=`ls -di / | awk '{if ($1 != "2") print 1; else print 0;}'`
+#        function _update_ps1() {
+#            if [ "$TERM" != "linux" ] ; then
+#                PREV=$?
+#                #EXTRA=`logname`@`hostname`
+#                EXTRA=`logname`
+#                export PS1="$(~/.vim/powerline-shell.py ${PREV} --width ${COLUMNS} --chroot ${CHROOT} --extra ${EXTRA})"
+#            fi
+#        }
+# 
+#         export PROMPT_COMMAND="_update_ps1"
+
+export PATH=$PATH:/home/david.gray/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/home/david.gray/osg/osgearth/bin/:/home/david.gray/osg/3.0.1/bin/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/david.gray/osg/osgearth/lib64/:/home/david.gray/osg/3.0.1/lib64/:/home/david.gray/lib64/
+export OSG_DIR=/home/david.gray/osg/3.0.1
+export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/usr/local/lib/
 
 # if I want anaconda to be in PATH
 # export PATH=/home/david.gray/anaconda/bin:$PATH

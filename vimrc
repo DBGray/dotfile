@@ -43,7 +43,7 @@ function! SKEL_spec()
 endfunction
 autocmd BufNewFile	*.spec	call SKEL_spec()
 call pathogen#infect()
-call pathogen#runtime_append_all_bundles()
+"call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 syntax on
 " filetypes
@@ -51,9 +51,28 @@ filetype plugin on
 filetype indent on
 " ~/.vimrc ends here
 "--- my stuff --- {{{
+
+" python vim-mode settings
 autocmd filetype python set expandtab
 autocmd BufWritePost *.py call Flake8()
-let g:flake8_ignore="E501,W293"  
+
+" Turn off selected messages:
+"     E203 is whitespace before ":"
+"     E221 is multiple space before operator
+"     E225 is missing whitespace around operator
+"     E231 is missing whitespace after ","
+"     E501 is the length of the line
+"     R0912 is too many branches
+"     R0914 is too many local variables
+"     C0301 is line too long (which is at 80 characters I believe)
+"     C0303 is Trailing whitespace, which is a great check except it complains
+"       about "\r\n" when editing DOS-formatted files. Additionally, pymode
+"       by default gets rid of trailing whitespace.
+" 
+"let g:flake8_ignore="E501,W293"
+let g:flake8_ignore="E203,E221,E225,E231,E501,C0301,C0303,R0912,R0914"
+"let g:pymode_lint_ignore  = "E203,E221,E225,E231,E501,C0301,C0303,R0912,R0914"
+
 " Avoid accidental hits of <F1> while aiming for <Esc>
 map! <F1> <Esc>
 " Vim behaviour {{{

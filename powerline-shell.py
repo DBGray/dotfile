@@ -347,7 +347,9 @@ def add_time_segment(powerline, cwd):
         
     now = datetime.datetime.now()
     #stuff = " %d:%d:%d %d.%d.%d " % (now.hour, now.minute, now.second, now.day, now.month, now.year)
-    stuff = " %s " % now.strftime("%a %d %H:%M:%S")
+    # Dave comment out time from cmd line
+    #stuff = " %s " % now.strftime("%a %d %H:%M:%S")
+    stuff = ""
     
     powerline.append_right(Segment(powerline, stuff, Color.TIME_FG, Color.TIME_BG, separator=powerline.separator_right, right=True))
     return True
